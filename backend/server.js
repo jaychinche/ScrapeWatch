@@ -17,7 +17,7 @@ app.use(cookieParser());
 
 // CORS configuration for frontend on localhost:5174
 app.use(cors({
-  origin: 'http://localhost:5173',
+  origin: 'https://scrape-watch.vercel.app',
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization', 'x-auth-token']
@@ -34,32 +34,6 @@ app.use(
   })
 );
 
-//   try {
-//     const { email, password } = req.body;
-
-
-
-//     if (!email || !password) {
-//       return res.status(400).json({ message: 'All fields are required.' });
-//     }
-
-//     const existingUser = await User.findOne({ email });
-//     if (existingUser) {
-//       return res.status(409).json({ message: 'User with this email already exists.' });
-//     }
-
-//     const saltRounds = 10;
-//     const hashedPassword = await bcrypt.hash(password, saltRounds);
-
-//     const newUser = new User({ email, password: hashedPassword });
-//     await newUser.save();
-
-//     res.status(201).json({ message: 'User registered successfully.', user: { id: newUser._id, email: newUser.email } });
-//   } catch (error) {
-//     console.error('Register Error:', error);
-//     res.status(500).json({ message: 'Server error.' });
-//   }
-// });
 // Routes
 app.use('/users', authRoutes);
 app.use('/api', newsRoutes);
