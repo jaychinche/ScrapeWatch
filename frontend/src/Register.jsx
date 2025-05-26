@@ -1,39 +1,53 @@
-import * as React from 'react';
-import { motion } from 'framer-motion';
+import * as React from "react";
+import { motion } from "framer-motion";
+import api from './api';
 import {
-  Box, Button, Checkbox, CssBaseline, FormControl,
-  FormControlLabel, FormLabel, TextField, Typography,
-  Stack, Alert, IconButton, useTheme, useMediaQuery,
-  CircularProgress, Link
-} from '@mui/material';
-import MuiCard from '@mui/material/Card';
+  Box,
+  Button,
+  Checkbox,
+  CssBaseline,
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  TextField,
+  Typography,
+  Stack,
+  Alert,
+  IconButton,
+  useTheme,
+  useMediaQuery,
+  CircularProgress,
+  Link,
+} from "@mui/material";
+import MuiCard from "@mui/material/Card";
 import CloseIcon from "@mui/icons-material/Close";
-import { styled } from '@mui/material/styles';
-import { useNavigate } from 'react-router-dom';
+import { styled } from "@mui/material/styles";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-import AppTheme from './shared-theme/AppTheme';
+import AppTheme from "./shared-theme/AppTheme";
 import AppAppBarUser from "./dashboardMain/components/AppAppBarUser";
 import Footer from "./dashboardMain/components/Footer";
 
 const Card = styled(motion(MuiCard))(({ theme }) => ({
-  display: 'flex',
-  flexDirection: 'column',
-  alignSelf: 'center',
-  width: '100%',
+  display: "flex",
+  flexDirection: "column",
+  alignSelf: "center",
+  width: "100%",
   padding: theme.spacing(4),
   gap: theme.spacing(2),
-  margin: 'auto',
-  [theme.breakpoints.up('sm')]: {
-    maxWidth: '450px',
+  margin: "auto",
+  [theme.breakpoints.up("sm")]: {
+    maxWidth: "450px",
   },
-  boxShadow: 'hsla(220, 30%, 5%, 0.05) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.05) 0px 15px 35px -5px',
+  boxShadow:
+    "hsla(220, 30%, 5%, 0.05) 0px 5px 15px 0px, hsla(220, 25%, 10%, 0.05) 0px 15px 35px -5px",
 }));
 
 const RegisterContainer = styled(Stack)(({ theme }) => ({
-  minHeight: '100vh',
+  minHeight: "100vh",
   padding: theme.spacing(2),
-  [theme.breakpoints.up('sm')]: {
+  [theme.breakpoints.up("sm")]: {
     padding: theme.spacing(4),
   },
 }));
@@ -41,21 +55,21 @@ const RegisterContainer = styled(Stack)(({ theme }) => ({
 const LeftSection = styled(motion(Box))(({ theme }) => ({
   flex: 1,
   color: theme.palette.text.primary,
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'center',
+  display: "flex",
+  flexDirection: "column",
+  justifyContent: "center",
   padding: theme.spacing(4),
-  [theme.breakpoints.down('sm')]: {
+  [theme.breakpoints.down("sm")]: {
     paddingBottom: theme.spacing(2),
-    textAlign: 'center',
+    textAlign: "center",
   },
 }));
 
 const RightSection = styled(Box)(({ theme }) => ({
   flex: 1,
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
   padding: theme.spacing(4),
 }));
 
@@ -63,16 +77,16 @@ export default function Register(props) {
   const [emailError, setEmailError] = React.useState(false);
   const [passwordError, setPasswordError] = React.useState(false);
   const [nameError, setNameError] = React.useState(false);
-  const [emailErrorMessage, setEmailErrorMessage] = React.useState('');
-  const [passwordErrorMessage, setPasswordErrorMessage] = React.useState('');
-  const [nameErrorMessage, setNameErrorMessage] = React.useState('');
+  const [emailErrorMessage, setEmailErrorMessage] = React.useState("");
+  const [passwordErrorMessage, setPasswordErrorMessage] = React.useState("");
+  const [nameErrorMessage, setNameErrorMessage] = React.useState("");
   const [alertMessage, setAlertMessage] = React.useState(null);
   const [alertType, setAlertType] = React.useState("success");
   const [loading, setLoading] = React.useState(false);
 
   const navigate = useNavigate();
   const theme = useTheme();
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -113,11 +127,14 @@ export default function Register(props) {
     if (!valid) return;
     setLoading(true);
     try {
-      const response = await axios.post("http://localhost:8000/users/register", {
-        name,
-        email,
-        password,
-      });
+      const response = await api.post(
+        "/users/register",
+        {
+          name,
+          email,
+          password,
+        }
+      );
       setAlertMessage("Registration successful!");
       setAlertType("success");
       setTimeout(() => {
@@ -126,7 +143,9 @@ export default function Register(props) {
       }, 1500);
     } catch (error) {
       setLoading(false);
-      setAlertMessage(error.response?.data?.error || "An error occurred. Please try again.");
+      setAlertMessage(
+        error.response?.data?.error || "An error occurred. Please try again."
+      );
       setAlertType("error");
     }
   };
@@ -146,7 +165,9 @@ export default function Register(props) {
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8 }}
         >
-          <br /><br /><br />
+          <br />
+          <br />
+          <br />
           <Typography variant="h4" component="h1" gutterBottom>
             Join ScrapeWatch
           </Typography>
@@ -156,7 +177,8 @@ export default function Register(props) {
                 Start tracking the web like never before.
               </Typography>
               <Typography variant="body1" color="text.secondary" paragraph>
-                Sign up to monitor websites, receive change alerts, and automate scraping workflows.
+                Sign up to monitor websites, receive change alerts, and automate
+                scraping workflows.
               </Typography>
               <Typography variant="body2" color="text.secondary">
                 Thousands of users already trust ScrapeWatch.
@@ -199,7 +221,12 @@ export default function Register(props) {
               component="form"
               onSubmit={handleSubmit}
               noValidate
-              sx={{ display: 'flex', flexDirection: 'column', width: '100%', gap: 2 }}
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                width: "100%",
+                gap: 2,
+              }}
             >
               <FormControl>
                 <FormLabel>Name</FormLabel>
@@ -208,8 +235,7 @@ export default function Register(props) {
                   type="text"
                   required
                   fullWidth
-                  placeholder='Enter your name'
-                 
+                  placeholder="Enter your name"
                   error={nameError}
                   helperText={nameErrorMessage}
                   disabled={loading}
@@ -222,8 +248,7 @@ export default function Register(props) {
                   type="email"
                   required
                   fullWidth
-                  placeholder='Enter your email'
-                
+                  placeholder="Enter your email"
                   error={emailError}
                   helperText={emailErrorMessage}
                   disabled={loading}
@@ -236,35 +261,33 @@ export default function Register(props) {
                   type="password"
                   required
                   fullWidth
-                  placeholder='Enter your password'
+                  placeholder="Enter your password"
                   error={passwordError}
                   helperText={passwordErrorMessage}
                   disabled={loading}
                 />
               </FormControl>
               <FormControlLabel
-                control={<Checkbox value="terms" color="primary" disabled={loading} />}
+                control={
+                  <Checkbox value="terms" color="primary" disabled={loading} />
+                }
                 label="I agree to the Terms & Conditions"
               />
               <Button
                 type="submit"
                 fullWidth
+                      color="primary"
                 variant="contained"
-                disabled={loading}
-                startIcon={loading ? <CircularProgress size={20} color="inherit" /> : null}
-                sx={{
-                  bgcolor: theme.palette.primary.main,
-                  color: "#000",
-                  '&.Mui-disabled': {
-                    bgcolor: theme.palette.primary.main,
-                    color: "#000",
-                  },
-                }}
+             
+                startIcon={
+                  loading ? (
+                    <CircularProgress size={20} color="primary" />
+                  ) : null
+                }
+                
               >
                 {loading ? "Registering..." : "Register"}
               </Button>
-
-              {/* New Section: Already registered? Login */}
               <Box textAlign="center" mt={2}>
                 <Typography variant="body2">
                   Already registered?{" "}

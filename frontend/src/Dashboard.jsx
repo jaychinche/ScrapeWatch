@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { motion } from "framer-motion";
+import api from './api';
 import {
   Box,
   Button,
@@ -14,14 +15,12 @@ import {
   TableRow,
   Paper,
   Pagination,
-  Alert,
   CssBaseline,
   Stack,
-  IconButton,
   useMediaQuery,
 } from "@mui/material";
 import { styled, useTheme } from "@mui/material/styles";
-import CloseIcon from "@mui/icons-material/Close";
+
 import AppTheme from "./shared-theme/AppTheme";
 import AppAppBarUser from "./dashboardMain/components/AppAppBarUser";
 import Footer from "./dashboardMain/components/Footer";
@@ -78,8 +77,8 @@ const Dashboard = () => {
   const fetchNews = async (pageNum = 1) => {
     setLoading(true);
     try {
-      const res = await axios.get(
-        `http://localhost:8000/api/news?page=${pageNum}&limit=5`
+      const res = await api.get(
+        `/api/news?page=${pageNum}&limit=5`
       );
       setNews(res.data.data);
       setPage(res.data.pagination.page);
@@ -97,7 +96,7 @@ const Dashboard = () => {
     setScrapeLoading(true);
     setAlertMessage(null);
     try {
-      const res = await axios.post("http://localhost:8000/api/scrape");
+      const res = await api.post("/api/scrape");
       setAlertMessage(res.data.message || "Scraping complete.");
       setAlertType("success");
       await fetchNews();
@@ -141,8 +140,6 @@ const Dashboard = () => {
                 button below to fetch the latest headlines.
               </Typography>
 
-           
-
               <Box sx={{ textAlign: "center", position: "relative" }}>
                 <motion.div
                   initial={{ opacity: 0, scale: 0.8 }}
@@ -153,24 +150,12 @@ const Dashboard = () => {
                     variant="contained"
                     size="large"
                     fullWidth
-                    disabled={scrapeLoading}
+                    
                     onClick={handleScrape}
-                    sx={{
-                      px: 2,
-                      py: 1.5,
-                      fontSize: "1rem",
-                      textTransform: "none",
-                      backgroundColor: "#1976d2",
-                      color: "white",
-                      boxShadow: "none",
-                      "&:hover": {
-                  
-                      
-                      },
-                    }}
+                   
                   >
                     {scrapeLoading ? (
-                      <CircularProgress size={24} sx={{ color: "black" }} />
+                      <CircularProgress size={24} sx={{ color:"primary"}} />
                     ) : (
                       "Scrape Now"
                     )}
@@ -197,15 +182,16 @@ const Dashboard = () => {
                 }}
               >
                 <Table sx={{ minWidth: 650 }} aria-label="news table">
-                  <TableHead sx={{ bgcolor: "rgb(235, 233, 233)" }}>
+                  <TableHead sx={{ color:theme.palette.primary.main }}>
                     <TableRow>
-                      <TableCell sx={{ color: "black", fontWeight: 600 }}>
+                   
+                      <TableCell sx={{ color:theme.palette.primary.main, fontWeight: 600 }}>
                         Title
                       </TableCell>
-                      <TableCell sx={{ color: "black", fontWeight: 600 }}>
+                      <TableCell sx={{ color: theme.palette.primary.main, fontWeight: 600 }}>
                         Link
                       </TableCell>
-                      <TableCell sx={{ color: "black", fontWeight: 600 }}>
+                      <TableCell sx={{ color: theme.palette.primary.main, fontWeight: 600 }}>
                         Published At
                       </TableCell>
                     </TableRow>
@@ -228,18 +214,7 @@ const Dashboard = () => {
                               rel="noreferrer"
                               variant="outlined"
                               size="small"
-                              sx={{
-                                textTransform: "none",
-                                fontWeight: 500,
-                                backgroundColor: "white", // always white background
-                                color: "white", // text color from theme primary
-                                borderColor: "white", // border color from theme primary
-                                "&:hover": {
-                                  backgroundColor: "white", // keep white background on hover too
-                                  color: theme.palette.primary.dark, // maybe a darker text color on hover
-                                  borderColor: theme.palette.primary.dark, // darker border on hover
-                                },
-                              }}
+                              color="primary"
                             >
                               View
                             </Button>

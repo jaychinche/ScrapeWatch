@@ -77,7 +77,7 @@ export default function ColorModeIconDropdown(props: IconButtonOwnProps) {
         <MenuItem selected={mode === 'system'} onClick={handleMode('dark')}>
           System
         </MenuItem>
-        <MenuItem selected={mode === 'light'} onClick={handleMode('dark')}>
+        <MenuItem selected={mode === 'light'} onClick={handleMode('light')}>
           Light
         </MenuItem>
         <MenuItem selected={mode === 'dark'} onClick={handleMode('dark')}>

@@ -1,6 +1,7 @@
 import * as React from "react";
-import { motion } from "framer-motion";
-import Link from '@mui/material/Link';
+import { color, motion } from "framer-motion";
+import Link from "@mui/material/Link";
+import api from './api';
 import {
   Box,
   Button,
@@ -23,7 +24,6 @@ import CloseIcon from "@mui/icons-material/Close";
 import { styled } from "@mui/material/styles";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-
 import AppTheme from "./shared-theme/AppTheme";
 import AppAppBarUser from "./dashboardMain/components/AppAppBarUser";
 import Footer from "./dashboardMain/components/Footer";
@@ -111,7 +111,7 @@ export default function SignIn(props) {
 
     setLoading(true);
     try {
-      const response = await axios.post("http://localhost:8000/users/sign-in", {
+      const response = await api.post("/users/sign-in", {
         email,
         password,
       });
@@ -252,22 +252,18 @@ export default function SignIn(props) {
                 type="submit"
                 fullWidth
                 variant="contained"
-                disabled={loading}
+                
+                color="primary"
+  
+      
                 startIcon={
                   loading ? (
-                    <CircularProgress size={20} color="inherit" />
+                    <CircularProgress size={20} color="primary" />
                   ) : null
                 }
                 sx={{
-                  bgcolor: theme.palette.primary.main,
-                  color: "#000",
-                  "&:hover": {
-                    // bgcolor: theme.palette.primary.dark,
-                  },
-                  "&.Mui-disabled": {
-                    bgcolor: theme.palette.primary.main,
-                    color: "#000", // Keep text white even when disabled
-                  },
+                 
+                
                 }}
               >
                 {loading ? "Logging in..." : "Login"}
@@ -279,7 +275,6 @@ export default function SignIn(props) {
                   <Link href="/register" underline="hover">
                     Register now
                   </Link>
-                  
                 </Typography>
               </Box>
             </Box>
